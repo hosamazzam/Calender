@@ -168,6 +168,7 @@ public class MonthView extends LinearLayout {
                     if (!item.isEmpty()) {
                         int day = Integer.parseInt(item);
                         if (mListener != null) {
+                            view.setBackgroundResource(R.drawable.textview_background_event);
                             mListener.dateClicked(getDate(selectedYear, selectedMonth, day));
                         }
                     }

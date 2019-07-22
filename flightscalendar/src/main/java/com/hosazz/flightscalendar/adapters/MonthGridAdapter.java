@@ -153,7 +153,7 @@ public class MonthGridAdapter extends BaseAdapter {
                     }
                     if (mEventList.contains(date)) {
                         mHolder.tvCalendarMonthDay.setBackgroundResource(R.drawable.textview_background_event);
-                        mHolder.tvCalendarMonthDay.setTextColor(Color.WHITE);
+                        mHolder.tvCalendarMonthDay.setTextColor(Color.CYAN);
                     } else {
                         mHolder.tvCalendarMonthDay.setBackgroundResource(R.drawable.textview_background_no_event);
                         //  mHolder.tvCalendarMonthDay.setTextColor(ContextCompat.getColor(mContext, mToday <= Integer.parseInt(item) ? R.color.gray : android.R.color.black));
