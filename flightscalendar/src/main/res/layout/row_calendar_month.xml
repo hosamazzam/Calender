@@ -14,7 +14,13 @@
         android:paddingTop="5dp"
         android:paddingRight="5dp"
         android:paddingBottom="13dp"
-        android:textStyle="bold" />
+        android:textColor="@color/gray" />
+
+    <View
+        android:id="@+id/row_cm_border"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/gray" />
 
     <com.hosazz.flightscalendar.view.AutoResizeTextView
         android:id="@+id/row_cm_tv_day"
@@ -25,5 +31,6 @@
         android:paddingLeft="5dp"
         android:paddingTop="5dp"
         android:paddingRight="5dp"
-        android:paddingBottom="13dp" />
+        android:paddingBottom="13dp"
+        android:textStyle="bold" />
 </LinearLayout>

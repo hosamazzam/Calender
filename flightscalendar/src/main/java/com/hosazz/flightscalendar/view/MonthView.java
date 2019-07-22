@@ -72,18 +72,19 @@ public class MonthView extends LinearLayout {
             currentDayTextColor = typedArray.getColor(R.styleable.MonthView_currentDayTextColorMV,
                     ContextCompat.getColor(context, R.color.colorAccent));
             daysOfMonthTextColor = typedArray.getColor(R.styleable.MonthView_daysOfMonthTextColorMV,
-                    Color.BLACK);
+                    ContextCompat.getColor(context, R.color.gray));
             monthTextColor = typedArray.getColor(R.styleable.MonthView_monthNameTextColorMV,
-                    Color.RED);
-            daysOfWeekTextColor = typedArray.getColor(R.styleable.MonthView_daysOfWeekTextColorMV,
                     Color.BLACK);
+            daysOfWeekTextColor = typedArray.getColor(R.styleable.MonthView_daysOfWeekTextColorMV,
+                    ContextCompat.getColor(context, R.color.gray));
             calendarBackgroundColor = typedArray.getColor(R.styleable.MonthView_calendarBackgroundColorMV, Color.TRANSPARENT);
             mLeftArrowDrawable = typedArray.getDrawable(R.styleable.MonthView_prevButtonBackgroundResourceMV);
             mRightArrowDrawable = typedArray.getDrawable(R.styleable.MonthView_nextButtonBackgroundResourceMV);
         } else {
             currentDayTextColor = ContextCompat.getColor(context, R.color.colorAccent);
             daysOfMonthTextColor = Color.GRAY;
-            monthTextColor = Color.RED;
+
+            monthTextColor = ContextCompat.getColor(context, R.color.black);
             daysOfWeekTextColor = Color.BLACK;
             eventDayBgColor = ContextCompat.getColor(context, R.color.colorAccent);
             eventDayTextColor = ContextCompat.getColor(context, android.R.color.white);

@@ -3,6 +3,7 @@ package com.hosazz.flightscalendar.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,13 +56,13 @@ public class MonthGridAdapter extends BaseAdapter {
      */
     private List<String> getItemList(Calendar calendar) {
         List<String> itemList = new ArrayList<>();
-        itemList.add("Sun");
-        itemList.add("Mon");
-        itemList.add("Tue");
-        itemList.add("Wed");
-        itemList.add("Thu");
-        itemList.add("Fri");
-        itemList.add("Sat");
+        itemList.add("Su");
+        itemList.add("Mo");
+        itemList.add("Tu");
+        itemList.add("We");
+        itemList.add("Th");
+        itemList.add("Fr");
+        itemList.add("Sa");
 
         //getting first day of the month [sun-1; mon-2; tue-3; wed-4; thu-5; fri-6; sat-7;]
         int firstDayOfMonth = calendar.get(Calendar.DAY_OF_WEEK);
@@ -126,6 +127,7 @@ public class MonthGridAdapter extends BaseAdapter {
         } else { //positions >= 7 are reserved for days of the month (eg 1 to 31)
 
             mHolder.tvCalendarWeekDayName.setVisibility(View.GONE);
+            mHolder.border.setVisibility(View.GONE);
             mHolder.tvCalendarMonthDay.setVisibility(View.VISIBLE);
             mHolder.tvCalendarMonthDay.setText(mItemList.get(position));
 
@@ -134,12 +136,27 @@ public class MonthGridAdapter extends BaseAdapter {
                     mHolder.tvCalendarMonthDay.setTextColor(mCurrentDayTextColor);
                 } else {
                     Date date = getDate(mDisplayYear, mDisplayMonth, Integer.parseInt(item));
+                    if (mDisplayYear <= mYear) {
+                        if (mDisplayMonth <= mMonth) {
+                            if (mDisplayMonth == mMonth) {
+                                if (mToday < Integer.parseInt(item))
+                                    mHolder.tvCalendarMonthDay.setTextColor(ContextCompat.getColor(mContext, R.color.black));
+                                else
+                                    mHolder.tvCalendarMonthDay.setTextColor(ContextCompat.getColor(mContext, R.color.gray));
+                            } else
+                                mHolder.tvCalendarMonthDay.setTextColor(ContextCompat.getColor(mContext, R.color.gray));
+                        } else {
+                            mHolder.tvCalendarMonthDay.setTextColor(ContextCompat.getColor(mContext, R.color.black));
+                        }
+                    } else {
+                        mHolder.tvCalendarMonthDay.setTextColor(ContextCompat.getColor(mContext, R.color.black));
+                    }
                     if (mEventList.contains(date)) {
                         mHolder.tvCalendarMonthDay.setBackgroundResource(R.drawable.textview_background_event);
                         mHolder.tvCalendarMonthDay.setTextColor(Color.WHITE);
                     } else {
                         mHolder.tvCalendarMonthDay.setBackgroundResource(R.drawable.textview_background_no_event);
-                        mHolder.tvCalendarMonthDay.setTextColor(mDaysOfMonthTextColor);
+                        //  mHolder.tvCalendarMonthDay.setTextColor(ContextCompat.getColor(mContext, mToday <= Integer.parseInt(item) ? R.color.gray : android.R.color.black));
                     }
                 }
             }
@@ -235,9 +252,11 @@ public class MonthGridAdapter extends BaseAdapter {
     class MyViewHolder {
 
         AutoResizeTextView tvCalendarMonthDay, tvCalendarWeekDayName;
+        View border;
 
         public MyViewHolder(View view, boolean isMonthView) {
             tvCalendarWeekDayName = view.findViewById(R.id.row_cm_tv_week_day_name);
+            border = view.findViewById(R.id.row_cm_border);
             tvCalendarMonthDay = view.findViewById(R.id.row_cm_tv_day);
             if (isMonthView) {
                 tvCalendarMonthDay.setMinTextSize(35);
