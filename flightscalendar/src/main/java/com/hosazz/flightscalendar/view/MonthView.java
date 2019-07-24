@@ -171,6 +171,7 @@ public class MonthView extends LinearLayout {
                             view.setBackgroundResource(R.drawable.textview_background_event);
                             mListener.dateClicked(getDate(selectedYear, selectedMonth, day));
                         }
+
                     }
                 }
             }
