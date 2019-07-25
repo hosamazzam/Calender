@@ -8,12 +8,14 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hosazz.flightscalendar.R;
 import com.hosazz.flightscalendar.adapters.MonthGridAdapter;
@@ -26,7 +28,7 @@ import java.util.List;
 /**
  * Created by ismail.khan2 on 4/22/2016.
  */
-public class MonthView extends LinearLayout {
+public class MonthView extends LinearLayout implements View.OnTouchListener {
 
     Context mContext;
     RelativeLayout mRlHeader;
@@ -44,6 +46,9 @@ public class MonthView extends LinearLayout {
     Drawable mLeftArrowDrawable, mRightArrowDrawable;
 
     MonthViewClickListeners mListener;
+
+    int firstPositionSeleted = -1;
+    int lastPositionSeleted = -1;
 
     public MonthView(Context context) {
         super(context);
@@ -123,6 +128,8 @@ public class MonthView extends LinearLayout {
         setIsMonthView(true);
         mGvMonth.setAdapter(mMonthGridAdapter);
         mGvMonth.setExpanded(true);
+
+        mGvMonth.setOnTouchListener(this);
 
         mMonthGridAdapter.setCurrentDayTextColor(currentDayTextColor);
         mMonthGridAdapter.setDaysOfMonthTextColor(daysOfMonthTextColor);
@@ -295,5 +302,29 @@ public class MonthView extends LinearLayout {
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
         return cal.getTime();
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        int action = event.getActionMasked();  // MotionEvent types such as ACTION_UP, ACTION_DOWN
+        float currentXPosition = event.getX();
+        float currentYPosition = event.getY();
+        int position = mGvMonth.pointToPosition((int) currentXPosition, (int) currentYPosition);
+        // Access text in the cell, or the object itself
+        //   String s = (String) gridView.getItemAtPosition(position);
+        //  TextView tv = (TextView) gridView.getChildAt(position);
+        Toast.makeText(mContext, "touch " + position, Toast.LENGTH_SHORT).show();
+        mGvMonth.setOnTouchListener(null);
+        mGvMonth.setOnTouchListener(MonthView.this);
+        if (lastPositionSeleted != -1) {
+            for (int i = Math.min(lastPositionSeleted, position); i <= Math.max(lastPositionSeleted, position); i++) {
+                mMonthGridAdapter.selection(i, mGvMonth.getChildAt(i));
+            }
+            lastPositionSeleted = position;
+        } else {
+            lastPositionSeleted = position;
+            mMonthGridAdapter.selection(position, mGvMonth.getChildAt(position));
+        }
+        return true;
     }
 }

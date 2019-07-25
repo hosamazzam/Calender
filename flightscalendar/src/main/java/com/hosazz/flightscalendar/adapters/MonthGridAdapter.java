@@ -4,7 +4,6 @@ package com.hosazz.flightscalendar.adapters;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,8 +19,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-
-import io.github.douglasjunior.androidSimpleTooltip.SimpleTooltip;
 
 /**
  * Created by ismail.khan2 on 3/18/2016.
@@ -166,28 +163,28 @@ public class MonthGridAdapter extends BaseAdapter {
             }
 
         }
-        mHolder.tvCalendarMonthDay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new SimpleTooltip.Builder(mContext)
-                        .anchorView(v)
-                        .text("Texto do Tooltip")
-                        .gravity(Gravity.TOP)
-                        .animated(false)
-                        .backgroundColor(mContext.getResources().getColor(R.color.colorAccent))
-                        .transparentOverlay(true)
-                        .build()
-                        .show();
-                v.setBackgroundResource(R.drawable.textview_background_event);
-            }
-        });
-        mHolder.tvCalendarMonthDay.setOnHoverListener(new View.OnHoverListener() {
-            @Override
-            public boolean onHover(View v, MotionEvent event) {
-                v.setBackgroundResource(R.drawable.textview_background_event);
-                return false;
-            }
-        });
+//        mHolder.tvCalendarMonthDay.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                new SimpleTooltip.Builder(mContext)
+//                        .anchorView(v)
+//                        .text("Texto do Tooltip")
+//                        .gravity(Gravity.TOP)
+//                        .animated(false)
+//                        .backgroundColor(mContext.getResources().getColor(R.color.colorAccent))
+//                        .transparentOverlay(true)
+//                        .build()
+//                        .show();
+//                v.setBackgroundResource(R.drawable.textview_background_event);
+//            }
+//        });
+//        mHolder.tvCalendarMonthDay.setOnHoverListener(new View.OnHoverListener() {
+//            @Override
+//            public boolean onHover(View v, MotionEvent event) {
+//                v.setBackgroundResource(R.drawable.textview_background_event);
+//                return false;
+//            }
+//        });
         return convertView;
     }
 
@@ -275,7 +272,12 @@ public class MonthGridAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    class MyViewHolder {
+    public void selection(int pos, View view) {
+        if (pos >= 7 && !mItemList.get(pos).isEmpty())
+            view.findViewById(R.id.row_cm_tv_day).setBackgroundResource(R.drawable.textview_background_event);
+    }
+
+    class MyViewHolder implements View.OnTouchListener {
 
         AutoResizeTextView tvCalendarMonthDay, tvCalendarWeekDayName;
         View border;
@@ -291,6 +293,13 @@ public class MonthGridAdapter extends BaseAdapter {
                 tvCalendarMonthDay.setMinTextSize(25);
                 tvCalendarWeekDayName.setMinTextSize(25);
             }
+            // view.setOnTouchListener(this);
+        }
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            //  tvCalendarMonthDay.setBackgroundResource(R.drawable.textview_background_event);
+            return true;
         }
     }
 }
